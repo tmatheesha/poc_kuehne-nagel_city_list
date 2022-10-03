@@ -80,7 +80,7 @@ public class CityMgtServiceImpl extends BaseCrudService implements CityMgtServic
     @Override
     public ListResponse < CityDto > getPageableRecordList(PageableRequest < CityPaginationDto > pageableRequest) throws DomainException {
         ListResponse < CityDto > cityDtoListResponse = new ListResponse <>();
-        Pageable pageable = PageRequest.of(pageableRequest.getPageNumber(), pageableRequest.getPageSize());
+        Pageable pageable = PageRequest.of(pageableRequest.getPageNumber() > 0 ? pageableRequest.getPageNumber() -1: pageableRequest.getPageNumber(), pageableRequest.getPageSize());
         List < CityDto > cityDtoList = new LinkedList <>();
         if( StringUtils.hasLength(pageableRequest.getPaginationDto().getSearchBy())) {
             for(Object city: cityRepository.findDistinctByNameContaining(pageableRequest.getPaginationDto().getSearchBy(),pageable)){
