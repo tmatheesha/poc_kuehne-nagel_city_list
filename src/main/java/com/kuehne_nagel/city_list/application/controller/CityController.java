@@ -1,6 +1,5 @@
 package com.kuehne_nagel.city_list.application.controller;
 
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.kuehne_nagel.city_list.application.transport.request.PageableRequest;
@@ -37,14 +36,14 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping( "${base-url.context}/city" )
 @CrossOrigin( origins = "*",
         allowedHeaders = "*" )
-public class CityController extends BaseController{
+public class CityController extends BaseController {
 
     @Autowired
     private CityMgtService cityMgtService;
 
     @ApiOperation( value = "upload a set of Cities" )
     @PostMapping( value = "/upload",
-            produces = MediaType.APPLICATION_JSON_VALUE + "; charset=UTF-8")
+            produces = MediaType.APPLICATION_JSON_VALUE + "; charset=UTF-8" )
     public ResponseEntity < UploadCityResponse > uploadCities(
             @Validated
             @RequestBody( required = true )
@@ -57,21 +56,21 @@ public class CityController extends BaseController{
         return new ResponseEntity <>(importProductResponse, HttpStatus.OK);
     }
 
-    @PostMapping( value =  "/pages",
+    @PostMapping( value = "/pages",
             produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity < ListResponse > getPageableCityList(
             @Validated
             @RequestBody( required = true )
-                    PageableRequest < CityPaginationDto > pageableRequest , HttpServletRequest request) throws DomainException {
+                    PageableRequest < CityPaginationDto > pageableRequest, HttpServletRequest request) throws DomainException {
         setLogIdentifier(request);
         setRequestId(pageableRequest.getRequestHeader());
         ListResponse < CityDto > cityDtoListResponse = cityMgtService.getPageableRecordList(pageableRequest);
         return new ResponseEntity <>(cityDtoListResponse, HttpStatus.OK);
     }
 
-    @PostMapping( value =  "/update",
+    @PostMapping( value = "/update",
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity < SingleResponse > updateScreensV2(
+    public ResponseEntity < SingleResponse > updateCity(
             @Validated
             @RequestBody( required = true )
                     UpdateRequest < CityDto > dtoUpdateRequest, HttpServletRequest request) throws DomainException {
