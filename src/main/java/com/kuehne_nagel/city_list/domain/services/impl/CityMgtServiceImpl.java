@@ -1,9 +1,7 @@
 package com.kuehne_nagel.city_list.domain.services.impl;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import com.kuehne_nagel.city_list.application.transport.request.PageableRequest;
@@ -22,6 +20,7 @@ import com.kuehne_nagel.city_list.domain.exception.DomainException;
 import com.kuehne_nagel.city_list.domain.services.CityMgtService;
 import com.kuehne_nagel.city_list.domain.services.ExternalizedFileIntegrationService;
 import com.kuehne_nagel.city_list.domain.util.Constants;
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import com.kuehne_nagel.city_list.external.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -145,8 +144,8 @@ public class CityMgtServiceImpl extends BaseCrudService implements CityMgtServic
         }
         City city = ( City ) model;
         if ( Boolean.TRUE.equals(cityRepository.existsByName(city.getName())) ) {
-            logError("City Name {} already exists", city.getName());
-            throw new DomainException("City Name already exists", HttpStatus.BAD_REQUEST.toString());
+            logError(ErrorCodes.CITY_ERROR_CITY_NAME_ALREADY_EXISTS.getMessage(), city.getName());
+            throw new DomainException(ErrorCodes.CITY_ERROR_CITY_NAME_ALREADY_EXISTS.getDescription(), ErrorCodes.CITY_ERROR_CITY_NAME_ALREADY_EXISTS.getCode());
         }
     }
 
@@ -158,8 +157,8 @@ public class CityMgtServiceImpl extends BaseCrudService implements CityMgtServic
         }
         City city = ( City ) model;
         if ( Boolean.TRUE.equals(cityRepository.existsByNameAndIdNot(city.getName(),id)) ) {
-            logError("City Name {} already exists", city.getName());
-            throw new DomainException("City Name already exists", HttpStatus.BAD_REQUEST.toString());
+            logError(ErrorCodes.CITY_ERROR_CITY_NAME_ALREADY_EXISTS.getMessage(), city.getName());
+            throw new DomainException(ErrorCodes.CITY_ERROR_CITY_NAME_ALREADY_EXISTS.getDescription(), ErrorCodes.CITY_ERROR_CITY_NAME_ALREADY_EXISTS.getCode());
         }
     }
 

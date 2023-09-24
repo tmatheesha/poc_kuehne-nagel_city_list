@@ -1,17 +1,16 @@
 package com.kuehne_nagel.city_list.application.transport.request;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 @Data
 @JsonIgnoreProperties( ignoreUnknown = true )
-public class UpdateRequest <T> extends IdRequest {
+public class CreateRequest <T> extends BaseRequest {
 
-    @NotNull(message = "updateDto is null")
+    @NotNull(message = "createDto is null")
     @Valid
-    private T updateDto;
-
+    private T createDto;
 }

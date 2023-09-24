@@ -1,7 +1,7 @@
 package com.kuehne_nagel.city_list.application.transport.request;
 
 import java.time.LocalDateTime;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

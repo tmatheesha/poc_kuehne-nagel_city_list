@@ -2,7 +2,7 @@ package com.kuehne_nagel.city_list.application.controller;
 
 import java.util.Objects;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.kuehne_nagel.city_list.application.config.YAMLConfig;
 import com.kuehne_nagel.city_list.application.transport.request.RequestHeader;

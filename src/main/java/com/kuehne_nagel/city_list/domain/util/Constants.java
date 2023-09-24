@@ -35,5 +35,12 @@ public class Constants {
     public static final String METHOD_OUT = "{}:method out:{}:{}";
 
     public static final String CRUD_METHOD_INIT_LOG_MSG_UPDATE = "update method started | id: {}";
+    public static final String AUTH_HEADER_STRING = "Authorization";
+    public static final String BEARER_STRING = "Bearer ";
+
+    public static final String NAME = "name";
+    public static final String EMAIL = "email";
+
+    public static final String TOKEN_TYPE = "jwtTokenType";
 
 }

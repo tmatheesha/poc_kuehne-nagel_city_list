@@ -45,4 +45,31 @@ hibernate:
 
 importing-path: D:\Personal\poc\kuehne+Nagel\BE\temp
 
+#properties related to JWT token creation
+security:
+  jwt:
+    sign:
+      key: BymMoFgfyZTFNQhGGX52E6tHvqkeuvKQvdsfrerre323409NNJWDKFWfdse673mfdkNHHFPQkd9389NB923CNLKSknl9849NCKS2836510NMLCKosdklmqISHJpjsHikm
+    expiretime:
+      access:
+        token:
+          millisecond: 9000000 #150mins
+      refresh:
+        token:
+          hour: 720 #30days
+
+
+user:
+  info:
+    transfer:
+      synchronous:
+        key: skdsklc97%^&80><
+
+
+password:
+  encoder:
+    rounds: 10
+time:
+  zone: Asia/Colombo
+
 

@@ -5,8 +5,8 @@ import java.util.Objects;
 
 import com.kuehne_nagel.city_list.domain.exception.DomainException;
 import com.kuehne_nagel.city_list.domain.services.ExternalizedFileIntegrationService;
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import com.kuehne_nagel.city_list.domain.util.ExternalFileTypes;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -14,12 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
  *
  */
 public abstract class AbstractExternalizedFileIntegration implements ExternalizedFileIntegrationService {
-
-    private static final String ABSTRACT_EXTERNALIZED_FILE_INTEGRATION_EXTERNAL_FILE_TYPE_IS_NULL = "externalFileTypes is null";
-
-    private static final String ABSTRACT_EXTERNALIZED_FILE_INTEGRATION_EXTERNAL_FILE_TYPE_NOT_IMPLEMENTED = "externalFileTypes is not implemented: {}";
-
-    private static final String ABSTRACT_EXTERNALIZED_FILE_INTEGRATION_EXTERNAL_FILE_TYPE_NOT_IMPLEMENTED_EXP = "Please check the file and try again";
 
     /**
      * Import a file.
@@ -33,15 +27,15 @@ public abstract class AbstractExternalizedFileIntegration implements Externalize
     @Override
     public List importFile(ExternalFileTypes externalFileTypes, MultipartFile multipartFile, Class classType) throws DomainException {
         if( Objects.isNull(externalFileTypes) ) {
-            logger.error(ABSTRACT_EXTERNALIZED_FILE_INTEGRATION_EXTERNAL_FILE_TYPE_IS_NULL);
-            throw new DomainException(ABSTRACT_EXTERNALIZED_FILE_INTEGRATION_EXTERNAL_FILE_TYPE_IS_NULL, HttpStatus.BAD_REQUEST.toString());
+            logger.error(ErrorCodes.CITY_ERROR_EXT_FILE_TYPE_NULL.getMessage());
+            throw new DomainException(ErrorCodes.CITY_ERROR_EXT_FILE_TYPE_NULL.getMessage(), ErrorCodes.CITY_ERROR_EXT_FILE_TYPE_NULL.getCode());
         }
         if(ExternalFileTypes.CSV.equals(externalFileTypes)) {
             this.validateFile(multipartFile);
             return this.importFile(multipartFile, classType );
         } else {
-            logger.error(ABSTRACT_EXTERNALIZED_FILE_INTEGRATION_EXTERNAL_FILE_TYPE_NOT_IMPLEMENTED,externalFileTypes);
-            throw new DomainException(ABSTRACT_EXTERNALIZED_FILE_INTEGRATION_EXTERNAL_FILE_TYPE_NOT_IMPLEMENTED_EXP, HttpStatus.BAD_REQUEST.toString());
+            logger.error(ErrorCodes.CITY_ERROR_EXT_FILE_TYPE_NOT_IMPL.getDescription(),externalFileTypes);
+            throw new DomainException(ErrorCodes.CITY_ERROR_EXT_FILE_TYPE_NOT_IMPL.getMessage(), ErrorCodes.CITY_ERROR_EXT_FILE_TYPE_NOT_IMPL.getCode());
         }
     }
 

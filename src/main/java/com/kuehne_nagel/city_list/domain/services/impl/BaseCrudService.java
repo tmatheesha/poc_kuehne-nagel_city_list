@@ -2,17 +2,16 @@ package com.kuehne_nagel.city_list.domain.services.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import com.kuehne_nagel.city_list.application.transport.request.RequestHeader;
 import com.kuehne_nagel.city_list.domain.entities.AbstractEntity;
 import com.kuehne_nagel.city_list.domain.exception.DomainException;
 import com.kuehne_nagel.city_list.domain.util.Constants;
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.HttpStatus;
 
 /**
  * Crud Service
@@ -69,7 +68,7 @@ public abstract class BaseCrudService {
     public void validateObjectNull(Object object, String name) throws DomainException {
         if ( Boolean.TRUE.equals(object == null) ) {
             logger.error("{} is null", name);
-            throw new DomainException(String.format("%s is null", name), HttpStatus.BAD_REQUEST.toString());
+            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_OBJ_IS_NULL.getMessage(), name), ErrorCodes.CITY_ERROR_OBJ_IS_NULL.getCode());
         }
     }
 
@@ -82,7 +81,7 @@ public abstract class BaseCrudService {
     public void validateWhetherIdExists(Long id, Class modelClass, JpaRepository repository) throws  DomainException {
         if ( Boolean.FALSE.equals(repository.existsById(id)) ) {
             logger.error("id: {} doesn't exist for {}", id, modelClass.getSimpleName());
-            throw new DomainException(String.format("id: %s doesn't exist for %s", id, modelClass.getSimpleName()), HttpStatus.BAD_REQUEST.toString());
+            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_ID_NOT_EXIST_FOR_OBJ.getMessage(), id, modelClass.getSimpleName()), ErrorCodes.CITY_ERROR_ID_NOT_EXIST_FOR_OBJ.getCode());
         }
     }
 

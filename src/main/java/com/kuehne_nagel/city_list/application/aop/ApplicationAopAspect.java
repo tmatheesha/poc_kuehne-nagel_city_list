@@ -3,7 +3,7 @@ package com.kuehne_nagel.city_list.application.aop;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

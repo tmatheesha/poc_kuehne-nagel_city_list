@@ -7,12 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kuehne_nagel.city_list.application.transport.request.RequestHeader;
 import com.kuehne_nagel.city_list.application.transport.response.ResponseHeader;
 import com.kuehne_nagel.city_list.domain.exception.DomainException;
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import org.modelmapper.ConfigurationException;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 
 public interface CommonService {
 
@@ -27,7 +27,7 @@ public interface CommonService {
         }
         catch ( IllegalArgumentException | ConfigurationException | MappingException e ) {
             logger.error("Source : {}, to destination by class type : {}, mapping exception : ", sourceEntity, destinationType, e);
-            throw new DomainException(String.format("Mapping exception : %s", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR.toString());
+            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_MAPPING_ERROR.getMessage(), e.getMessage()), ErrorCodes.CITY_ERROR_MAPPING_ERROR.getCode());
         }
     }
 

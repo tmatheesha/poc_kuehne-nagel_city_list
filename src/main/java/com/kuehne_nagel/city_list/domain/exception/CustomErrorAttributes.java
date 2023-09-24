@@ -53,7 +53,8 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
         }
         switch ( error.getClass().getSimpleName() ) {
             case "DomainException":
-                return handleDomainException(( DomainException ) error);
+            case "AuthorizationException":
+                return handleDomainException(( BaseException ) error);
             case "HttpMessageNotReadableException":
                 return handleMessageNotReadableError(( HttpMessageNotReadableException ) error);
             case "ProductCatalogDomainException":
@@ -67,7 +68,7 @@ public class CustomErrorAttributes extends DefaultErrorAttributes {
         }
     }
 
-    private Map < String, Object > handleDomainException(DomainException error) {
+    private Map < String, Object > handleDomainException(BaseException error) {
         Map < String, Object > errorDetails = new LinkedHashMap <>();
         errorDetails.put(RESPONSE_HEADER_TEXT, this.generateResponseHeaderDto(MDC.get(yamlConfig.getRequestIdKey()), error.getCode(), error.getMessage(), LocalDateTime.now(), error.getMessage()));
         return errorDetails;

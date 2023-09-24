@@ -1,6 +1,6 @@
 package com.kuehne_nagel.city_list.application.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.kuehne_nagel.city_list.application.transport.request.PageableRequest;
 import com.kuehne_nagel.city_list.application.transport.request.UpdateRequest;

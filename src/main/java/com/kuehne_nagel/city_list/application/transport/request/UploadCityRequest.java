@@ -1,6 +1,6 @@
 package com.kuehne_nagel.city_list.application.transport.request;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.kuehne_nagel.city_list.domain.util.ExternalFileTypes;
 import lombok.Data;

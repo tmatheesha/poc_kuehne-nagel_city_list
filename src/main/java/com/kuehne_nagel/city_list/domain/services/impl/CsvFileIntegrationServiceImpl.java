@@ -11,11 +11,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.kuehne_nagel.city_list.domain.exception.DomainException;
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,8 +52,8 @@ public class CsvFileIntegrationServiceImpl extends AbstractExternalizedFileInteg
             multipartFile.transferTo(file);
         }
         catch ( IOException e ) {
-            logError("Error occurred in converting multipart file to a file, {}", e);
-            throw new DomainException("Please check the file and try again", HttpStatus.BAD_REQUEST.toString());
+            logError(ErrorCodes.CITY_ERROR_MULTIPART_FILE_CONVERT.getDescription(), e);
+            throw new DomainException(ErrorCodes.CITY_ERROR_MULTIPART_FILE_CONVERT.getMessage(), ErrorCodes.CITY_ERROR_MULTIPART_FILE_CONVERT.getCode());
         }
         try (
                 BufferedReader reader2 = Files.newBufferedReader(filePath, StandardCharsets.UTF_8) ;
@@ -64,8 +64,8 @@ public class CsvFileIntegrationServiceImpl extends AbstractExternalizedFileInteg
             outputList.addAll(cb.parse());
         }
         catch ( Exception e ) {
-            logError("Error occurred in reading the file {}", e);
-            throw new DomainException(String.format("Please check the file and try again, error occurred: %s", e.getMessage()), HttpStatus.BAD_REQUEST.toString());
+            logError(ErrorCodes.CITY_ERROR_READING_FILE.getDescription(), e);
+            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_READING_FILE.getMessage(), e.getMessage()), ErrorCodes.CITY_ERROR_READING_FILE.getCode());
         }
         return outputList;
     }
@@ -80,12 +80,12 @@ public class CsvFileIntegrationServiceImpl extends AbstractExternalizedFileInteg
     @Override
     public Boolean validateFile(MultipartFile file) throws DomainException {
         if ( file == null ) {
-            logError("file is null");
-            throw new DomainException("file is null", HttpStatus.BAD_REQUEST.toString());
+            logError(ErrorCodes.CITY_ERROR_FILE_IS_NULL.getMessage());
+            throw new DomainException(ErrorCodes.CITY_ERROR_FILE_IS_NULL.getMessage(), ErrorCodes.CITY_ERROR_FILE_IS_NULL.getCode());
         }
         if ( Boolean.FALSE.equals(CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_PURE_EXTENSION.equals(FilenameUtils.getExtension(file.getOriginalFilename()))) ) {
-            logError("file type {} is not supported, use {} file type", FilenameUtils.getExtension(file.getOriginalFilename()), CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_EXTENSION);
-            throw new DomainException(String.format("file type %s is not supported, use %s file type", FilenameUtils.getExtension(file.getOriginalFilename()), CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_EXTENSION), HttpStatus.BAD_REQUEST.toString());
+            logError(ErrorCodes.CITY_ERROR_FILE_TYPE_NOT_SUPPORTED.getDescription(), FilenameUtils.getExtension(file.getOriginalFilename()), CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_EXTENSION);
+            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_FILE_TYPE_NOT_SUPPORTED.getMessage(), FilenameUtils.getExtension(file.getOriginalFilename()), CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_EXTENSION), ErrorCodes.CITY_ERROR_FILE_TYPE_NOT_SUPPORTED.getCode());
         }
         return Boolean.TRUE;
     }

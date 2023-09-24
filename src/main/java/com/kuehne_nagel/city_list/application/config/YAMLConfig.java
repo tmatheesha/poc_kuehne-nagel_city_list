@@ -25,4 +25,13 @@ public class YAMLConfig {
 
     @Value("${logging.response.shouldLogInfo}")
     private String loggingResponseShouldLogInfo;
+
+    @Value("${security.jwt.sign.key}")
+    private String jwtSignKey;
+
+    @Value("${security.jwt.expiretime.access.token.millisecond}")
+    private Integer accessTokenExpireTime;
+
+    @Value("${security.jwt.expiretime.refresh.token.hour}")
+    private Integer refreshTokenExpireTime;
 }
