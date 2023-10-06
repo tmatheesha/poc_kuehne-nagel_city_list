@@ -5,7 +5,7 @@ package com.kuehne_nagel.city_list.domain.util;
  */
 public class Constants {
 
-    private Constants(){
+    private Constants() {
         //This class should not be instantiated
     }
 
@@ -17,9 +17,9 @@ public class Constants {
 
     public static final String CRUD_METHOD_INIT_LOG_MSG_CREATE = "create method started";
 
-    public static final String CRUD_METHOD_INIT_LOG_MSG_IS_NULL= "{} is null";
+    public static final String CRUD_METHOD_INIT_LOG_MSG_IS_NULL = "{} is null";
 
-    public static final String CRUD_METHOD_INIT_MSG_IS_NULL= "%s is null";
+    public static final String CRUD_METHOD_INIT_MSG_IS_NULL = "%s is null";
 
 
     public static final String CITY_MGT = "citymgt";

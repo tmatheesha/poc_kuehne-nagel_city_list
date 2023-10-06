@@ -11,10 +11,10 @@ import java.time.ZoneId;
 @Configuration
 public class BeanConfig {
 
-    @Value( "${password.encoder.rounds}" )
+    @Value("${password.encoder.rounds}")
     private Integer passwordEncoderRounds;
 
-    @Value( "${time.zone}" )
+    @Value("${time.zone}")
     private String timeZone;
 
     @Bean

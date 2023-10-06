@@ -1,9 +1,9 @@
 package com.kuehne_nagel.city_list.domain.assemblers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import com.kuehne_nagel.city_list.domain.exception.DomainException;
 import com.kuehne_nagel.city_list.domain.services.CommonService;
-import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import org.modelmapper.ConfigurationException;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;

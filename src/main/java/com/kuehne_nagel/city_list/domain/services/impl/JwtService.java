@@ -2,11 +2,11 @@ package com.kuehne_nagel.city_list.domain.services.impl;
 
 import com.kuehne_nagel.city_list.application.config.YAMLConfig;
 import com.kuehne_nagel.city_list.domain.entities.dto.UserDetailDto;
+import com.kuehne_nagel.city_list.domain.entities.enums.JwtTokenType;
 import com.kuehne_nagel.city_list.domain.exception.DomainException;
 import com.kuehne_nagel.city_list.domain.services.CommonService;
 import com.kuehne_nagel.city_list.domain.services.UserMgtService;
 import com.kuehne_nagel.city_list.domain.util.Constants;
-import com.kuehne_nagel.city_list.domain.entities.enums.JwtTokenType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -60,7 +60,7 @@ public class JwtService implements CommonService {
     //1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
     //2. Sign the JWT using the HS512 algorithm and secret key.
     //   compaction of the JWT to a URL-safe string
-    public String doGenerateToken(Map<String, Object> claims, String subject,Date expireDate ) {
+    public String doGenerateToken(Map<String, Object> claims, String subject, Date expireDate) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, yamlConfig.getJwtSignKey()).compact();
@@ -68,13 +68,13 @@ public class JwtService implements CommonService {
 
     public String generateJwtToken(UserDetailDto userDetail, JwtTokenType jwtTokenType) {
         Date expireDate;
-                if (JwtTokenType.ACCESS_TOKEN.equals(jwtTokenType)) {
-                    expireDate = new Date(System.currentTimeMillis() + yamlConfig.getAccessTokenExpireTime());
-                } else {
-                    expireDate = new Date(System.currentTimeMillis() + yamlConfig.getRefreshTokenExpireTime());
-                }
+        if (JwtTokenType.ACCESS_TOKEN.equals(jwtTokenType)) {
+            expireDate = new Date(System.currentTimeMillis() + yamlConfig.getAccessTokenExpireTime());
+        } else {
+            expireDate = new Date(System.currentTimeMillis() + yamlConfig.getRefreshTokenExpireTime());
+        }
 
-        return doGenerateToken(getUserDetailMap(userDetail, jwtTokenType),userDetail.getEmail(),expireDate);
+        return doGenerateToken(getUserDetailMap(userDetail, jwtTokenType), userDetail.getEmail(), expireDate);
     }
 
     public Map<String, Object> getClaimsFromTokenAsMap(String token) {
@@ -103,7 +103,6 @@ public class JwtService implements CommonService {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getEmail()) && !isTokenExpired(token));
     }
-
 
 
     /**

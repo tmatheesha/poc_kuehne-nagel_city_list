@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties( ignoreUnknown = true )
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CityPaginationDto {
 
     private String searchBy;

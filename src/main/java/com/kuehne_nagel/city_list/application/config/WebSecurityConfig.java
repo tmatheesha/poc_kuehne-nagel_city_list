@@ -34,30 +34,9 @@ public class WebSecurityConfig {
      * @param http
      * @throws Exception
      */
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
     @Bean
     protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-//        http.authorizeRequests()
-//                // allow all who are accessing
-//                .antMatchers("/com/v1.0/citymgt/user/create").permitAll()
-//                .antMatchers("/com/v1.0/citymgt/auth/login").permitAll()
-//                .antMatchers("/com/v1.0/citymgt/auth/refresh/token").permitAll()
-//                // Allow for swagger access
-//                .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
-//                // any other request must be authenticated
-//                .anyRequest().authenticated()
-//
-//                // Handle exceptions
-//                .and().exceptionHandling().accessDeniedHandler(new RestAccessDeniedHandler())
-//                .authenticationEntryPoint(new RestAuthenticationEntryPoint(jwtService)).and()
-//
-//                // Add a filter to validate the tokens with every request
-//                .addFilterBefore(new JwtRequestFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
-//
-//                // this disables session creation on Spring Security
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
                 .authorizeHttpRequests((requests) -> requests
@@ -78,10 +57,6 @@ public class WebSecurityConfig {
 
     }
 
-    /*@Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/com/v1.0/citymgt/auth/login");
-    }*/
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -90,7 +65,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public  CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));

@@ -1,17 +1,13 @@
 package com.kuehne_nagel.city_list.domain.entities;
 
-import java.time.LocalDateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Setter
@@ -22,17 +18,17 @@ public abstract class AbstractEntity {
     private Long id;
 
     @CreationTimestamp
-    @Column( name = "created_date",
+    @Column(name = "created_date",
             updatable = false,
-            nullable = false )
+            nullable = false)
     private LocalDateTime createdDate;
 
     @UpdateTimestamp
-    @Column( name = "last_modified_date",
-            nullable = false )
+    @Column(name = "last_modified_date",
+            nullable = false)
     private LocalDateTime lastModifiedDate;
 
-    @ColumnDefault( "false" )
+    @ColumnDefault("false")
     private boolean isDeleted;
 
     private String lastUpdatedUserId;

@@ -8,9 +8,9 @@ import com.kuehne_nagel.city_list.application.transport.response.SingleResponse;
 import com.kuehne_nagel.city_list.domain.assemblers.Assembler;
 import com.kuehne_nagel.city_list.domain.entities.User;
 import com.kuehne_nagel.city_list.domain.entities.dto.UserDetailDto;
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import com.kuehne_nagel.city_list.domain.exception.DomainException;
 import com.kuehne_nagel.city_list.domain.services.UserMgtService;
-import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import com.kuehne_nagel.city_list.external.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +34,7 @@ public class UserMgtServiceImpl implements UserMgtService {
     @Autowired
     private EncryptionFacilitator encryptionFacilitator;
 
-    @Value( "${user.info.transfer.synchronous.key}" )
+    @Value("${user.info.transfer.synchronous.key}")
     private String secretKey;
 
     /**
@@ -51,7 +51,7 @@ public class UserMgtServiceImpl implements UserMgtService {
         user.setPassword(passwordEncoder.encode(password));
         User savedUser = userRepository.save(user);
         SingleResponse singleResponse = new SingleResponse(userAssembler.toDto(savedUser));
-        singleResponse.setResponseHeader(createResponseHeader(createRequest.getRequestHeader(), String.format("Successfully Created the User with id %s",savedUser.getId())));
+        singleResponse.setResponseHeader(createResponseHeader(createRequest.getRequestHeader(), String.format("Successfully Created the User with id %s", savedUser.getId())));
         return singleResponse;
     }
 
@@ -69,7 +69,7 @@ public class UserMgtServiceImpl implements UserMgtService {
         user.setPassword(passwordEncoder.encode(password));
         User savedUser = userRepository.save(user);
         SingleResponse singleResponse = new SingleResponse(userAssembler.toDto(savedUser));
-        singleResponse.setResponseHeader(createResponseHeader(updateRequest.getRequestHeader(), String.format("Successfully Updated the User with id %s",savedUser.getId())));
+        singleResponse.setResponseHeader(createResponseHeader(updateRequest.getRequestHeader(), String.format("Successfully Updated the User with id %s", savedUser.getId())));
         return singleResponse;
     }
 
@@ -84,7 +84,7 @@ public class UserMgtServiceImpl implements UserMgtService {
         Optional<User> savedUserOptional = userRepository.findById(idRequest.getId());
         if (Boolean.FALSE.equals(savedUserOptional.isPresent())) {
             logError(ErrorCodes.CITY_ERROR_NO_USER_ID.getDescription(), idRequest.getId());
-            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_NO_USER_ID.getMessage(), idRequest.getId()),ErrorCodes.CITY_ERROR_NO_USER_ID.getCode());
+            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_NO_USER_ID.getMessage(), idRequest.getId()), ErrorCodes.CITY_ERROR_NO_USER_ID.getCode());
         }
         User savedUser = savedUserOptional.get();
         savedUser.setDeleted(Boolean.TRUE);
@@ -95,6 +95,7 @@ public class UserMgtServiceImpl implements UserMgtService {
 
     /**
      * Get {@link UserDetailDto} by email
+     *
      * @param email
      * @return
      */
@@ -103,7 +104,7 @@ public class UserMgtServiceImpl implements UserMgtService {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (Boolean.FALSE.equals(userOptional.isPresent())) {
             logError(ErrorCodes.CITY_ERROR_NO_USER_FOR_EMAIL.getDescription(), email);
-            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_NO_USER_FOR_EMAIL.getMessage(), email),ErrorCodes.CITY_ERROR_NO_USER_FOR_EMAIL.getCode());
+            throw new DomainException(String.format(ErrorCodes.CITY_ERROR_NO_USER_FOR_EMAIL.getMessage(), email), ErrorCodes.CITY_ERROR_NO_USER_FOR_EMAIL.getCode());
         }
         return (UserDetailDto) userAssembler.toDto(userOptional.get());
     }

@@ -13,15 +13,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Service for management activities of {@link com.kuehne_nagel.city_list.domain.entities.City}
- *
- *
  */
-public interface CityMgtService extends CommonService{
+public interface CityMgtService extends CommonService {
 
     UploadCityResponse importProduct(UploadCityRequest uploadCityRequest, MultipartFile file) throws DomainException;
 
-    ListResponse< CityDto> getPageableRecordList(PageableRequest< CityPaginationDto > pageableRequest) throws DomainException;
+    ListResponse<CityDto> getPageableRecordList(PageableRequest<CityPaginationDto> pageableRequest) throws DomainException;
 
-    SingleResponse< CityDto> updateRecord(UpdateRequest< CityDto> dtoUpdateRequest) throws DomainException;
+    SingleResponse<CityDto> updateRecord(UpdateRequest<CityDto> dtoUpdateRequest) throws DomainException;
 
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SingleResponse <T> extends BaseResponse {
+public class SingleResponse<T> extends BaseResponse {
 
     private T dto;
 

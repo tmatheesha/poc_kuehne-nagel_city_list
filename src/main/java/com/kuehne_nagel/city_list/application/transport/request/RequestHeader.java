@@ -1,13 +1,13 @@
 package com.kuehne_nagel.city_list.application.transport.request;
 
-import java.time.LocalDateTime;
-import jakarta.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
-@JsonIgnoreProperties( ignoreUnknown = true )
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestHeader {
 
     @NotNull(message = "requestId should not be null")

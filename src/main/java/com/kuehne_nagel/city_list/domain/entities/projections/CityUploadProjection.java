@@ -5,12 +5,12 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties( ignoreUnknown = true )
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CityUploadProjection {
 
-    @CsvBindByName( column = "name" )
+    @CsvBindByName(column = "name")
     private String name;
 
-    @CsvBindByName( column = "picture" )
+    @CsvBindByName(column = "picture")
     private String picture;
 }

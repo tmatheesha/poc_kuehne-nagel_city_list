@@ -1,5 +1,14 @@
 package com.kuehne_nagel.city_list.domain.services.impl;
 
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
+import com.kuehne_nagel.city_list.domain.exception.DomainException;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -10,15 +19,6 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.kuehne_nagel.city_list.domain.exception.DomainException;
-import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 @Service
 public class CsvFileIntegrationServiceImpl extends AbstractExternalizedFileIntegration {
 
@@ -28,7 +28,7 @@ public class CsvFileIntegrationServiceImpl extends AbstractExternalizedFileInteg
 
     private static final String CSV_FILE_INTEGRATE_SERVICE_DEL = "/";
 
-    @Value( "${importing-path}" )
+    @Value("${importing-path}")
     private String importingPath;
 
     /**
@@ -50,20 +50,18 @@ public class CsvFileIntegrationServiceImpl extends AbstractExternalizedFileInteg
             Files.createDirectories(filePath.getParent());
             file = new File(pathStr);
             multipartFile.transferTo(file);
-        }
-        catch ( IOException e ) {
+        } catch (IOException e) {
             logError(ErrorCodes.CITY_ERROR_MULTIPART_FILE_CONVERT.getDescription(), e);
             throw new DomainException(ErrorCodes.CITY_ERROR_MULTIPART_FILE_CONVERT.getMessage(), ErrorCodes.CITY_ERROR_MULTIPART_FILE_CONVERT.getCode());
         }
         try (
-                BufferedReader reader2 = Files.newBufferedReader(filePath, StandardCharsets.UTF_8) ;
+                BufferedReader reader2 = Files.newBufferedReader(filePath, StandardCharsets.UTF_8);
         ) {
             CsvToBean cb = new CsvToBeanBuilder(reader2)
                     .withType(classType)
                     .build();
             outputList.addAll(cb.parse());
-        }
-        catch ( Exception e ) {
+        } catch (Exception e) {
             logError(ErrorCodes.CITY_ERROR_READING_FILE.getDescription(), e);
             throw new DomainException(String.format(ErrorCodes.CITY_ERROR_READING_FILE.getMessage(), e.getMessage()), ErrorCodes.CITY_ERROR_READING_FILE.getCode());
         }
@@ -79,11 +77,11 @@ public class CsvFileIntegrationServiceImpl extends AbstractExternalizedFileInteg
      */
     @Override
     public Boolean validateFile(MultipartFile file) throws DomainException {
-        if ( file == null ) {
+        if (file == null) {
             logError(ErrorCodes.CITY_ERROR_FILE_IS_NULL.getMessage());
             throw new DomainException(ErrorCodes.CITY_ERROR_FILE_IS_NULL.getMessage(), ErrorCodes.CITY_ERROR_FILE_IS_NULL.getCode());
         }
-        if ( Boolean.FALSE.equals(CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_PURE_EXTENSION.equals(FilenameUtils.getExtension(file.getOriginalFilename()))) ) {
+        if (Boolean.FALSE.equals(CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_PURE_EXTENSION.equals(FilenameUtils.getExtension(file.getOriginalFilename())))) {
             logError(ErrorCodes.CITY_ERROR_FILE_TYPE_NOT_SUPPORTED.getDescription(), FilenameUtils.getExtension(file.getOriginalFilename()), CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_EXTENSION);
             throw new DomainException(String.format(ErrorCodes.CITY_ERROR_FILE_TYPE_NOT_SUPPORTED.getMessage(), FilenameUtils.getExtension(file.getOriginalFilename()), CSV_FILE_INTEGRATE_SERVICE_EXPORT_FILE_NAME_EXTENSION), ErrorCodes.CITY_ERROR_FILE_TYPE_NOT_SUPPORTED.getCode());
         }

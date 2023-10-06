@@ -1,7 +1,6 @@
 package com.kuehne_nagel.city_list.domain.entities.enums;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 @Getter

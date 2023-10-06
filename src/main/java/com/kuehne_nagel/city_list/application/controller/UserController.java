@@ -28,10 +28,8 @@ import org.springframework.web.bind.annotation.*;
         allowedHeaders = "*")
 public class UserController extends BaseController {
 
-
     @Autowired
     private UserMgtService userMgtService;
-
 
     @PostMapping(value = "/create",
             produces = MediaType.APPLICATION_JSON_VALUE)

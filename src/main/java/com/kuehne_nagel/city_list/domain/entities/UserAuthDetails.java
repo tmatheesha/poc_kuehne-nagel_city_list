@@ -1,6 +1,9 @@
 package com.kuehne_nagel.city_list.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,9 +11,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity

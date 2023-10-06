@@ -1,21 +1,20 @@
 package com.kuehne_nagel.city_list.domain.services.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.kuehne_nagel.city_list.application.transport.request.RequestHeader;
 import com.kuehne_nagel.city_list.domain.entities.AbstractEntity;
+import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import com.kuehne_nagel.city_list.domain.exception.DomainException;
 import com.kuehne_nagel.city_list.domain.util.Constants;
-import com.kuehne_nagel.city_list.domain.entities.enums.ErrorCodes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Crud Service
- *
  */
 public abstract class BaseCrudService {
 
@@ -23,7 +22,7 @@ public abstract class BaseCrudService {
 
     public abstract void validateForCreate(Object model, String modelName) throws DomainException;
 
-    public abstract void validateForUpdate(Object model, String modelName,Long id) throws DomainException;
+    public abstract void validateForUpdate(Object model, String modelName, Long id) throws DomainException;
 
     /**
      * @param modeObject
@@ -50,14 +49,15 @@ public abstract class BaseCrudService {
      */
     public Object update(Long id, AbstractEntity modelObject, JpaRepository repository, String modelName, Map contextMap) throws DomainException {
         logBaseCrud(Constants.CRUD_METHOD_INIT_LOG_MSG_UPDATE, id);
-        validateObjectNull(modelObject, String.format("%s param" , modelObject.getClass()));
+        validateObjectNull(modelObject, String.format("%s param", modelObject.getClass()));
         validateWhetherIdExists(id, modelObject.getClass(), repository);
-        validateForUpdate(modelObject,modelName,id);
+        validateForUpdate(modelObject, modelName, id);
         modelObject.setId(id);
         MDC.setContextMap(contextMap);
         setUserDetails(modelObject);
         return repository.save(modelObject);
     }
+
     /**
      * Check if the object is null and throw {@link DomainException}
      *
@@ -66,7 +66,7 @@ public abstract class BaseCrudService {
      * @throws DomainException
      */
     public void validateObjectNull(Object object, String name) throws DomainException {
-        if ( Boolean.TRUE.equals(object == null) ) {
+        if (Boolean.TRUE.equals(object == null)) {
             logger.error("{} is null", name);
             throw new DomainException(String.format(ErrorCodes.CITY_ERROR_OBJ_IS_NULL.getMessage(), name), ErrorCodes.CITY_ERROR_OBJ_IS_NULL.getCode());
         }
@@ -74,25 +74,27 @@ public abstract class BaseCrudService {
 
     /**
      * Check whether the Id exists and throw {@link DomainException} if not.
+     *
      * @param id
      * @param modelClass
      * @throws DomainException
      */
-    public void validateWhetherIdExists(Long id, Class modelClass, JpaRepository repository) throws  DomainException {
-        if ( Boolean.FALSE.equals(repository.existsById(id)) ) {
+    public void validateWhetherIdExists(Long id, Class modelClass, JpaRepository repository) throws DomainException {
+        if (Boolean.FALSE.equals(repository.existsById(id))) {
             logger.error("id: {} doesn't exist for {}", id, modelClass.getSimpleName());
             throw new DomainException(String.format(ErrorCodes.CITY_ERROR_ID_NOT_EXIST_FOR_OBJ.getMessage(), id, modelClass.getSimpleName()), ErrorCodes.CITY_ERROR_ID_NOT_EXIST_FOR_OBJ.getCode());
         }
     }
 
     private void logBaseCrud(String logMessage, Object... logParams) {
-        if ( logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug(logMessage, logParams);
         }
     }
 
     /**
      * Setting Last Modified user details
+     *
      * @param modeObject
      */
     private void setUserDetails(AbstractEntity modeObject) {
@@ -108,7 +110,7 @@ public abstract class BaseCrudService {
      * @return
      */
     public Map getContextMapFromRequestHeader(RequestHeader requestHeader) {
-        Map < String, String > contextMapForTransaction = new HashMap <>();
+        Map<String, String> contextMapForTransaction = new HashMap<>();
         contextMapForTransaction.put(Constants.USER_ID, requestHeader.getUserId());
         contextMapForTransaction.put(Constants.USER_NAME, requestHeader.getUserName());
         return contextMapForTransaction;
