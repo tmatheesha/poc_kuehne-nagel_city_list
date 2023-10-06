@@ -3,7 +3,7 @@
 POC (Proof of Concept) Project for Kuehne Nagel to manage City Details. 
 
 ## Technical Elaboration
-1. This Project is Java project build with java 8 sdk.
+1. This Project is Java project build with java 17 sdk.
 2. This Project Uses SpringBoot framework for hosting the build
 3. Maven is used as a dependency management and build management.
 4. For Database MySQL has been used.
